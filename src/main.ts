@@ -1,8 +1,8 @@
 import * as Prismic from "prismic-javascript";
 import * as PrismicDocument from "prismic-javascript/d.ts/documents";
 import ResolvedApi from "prismic-javascript/d.ts/ResolvedApi";
-import { ICmsAdapter } from "./interfaces/cms-adapter";
 import { normalizePrismicData } from "./helpers/normalize-prismic-data";
+import { ICmsAdapter } from "./interfaces/cms-adapter";
 import { IPrismicConfig } from "./interfaces/prismic-config";
 
 export class PrismicAdapter implements ICmsAdapter {
