@@ -6,6 +6,7 @@ import { ICmsAdapter } from "./interfaces/cms-adapter";
 import { IPrismicConfig } from "./interfaces/prismic-config";
 
 export class PrismicAdapter implements ICmsAdapter {
+    public supportsFieldWiseAdjustment = false;
     private client: Promise<ResolvedApi>;
 
     constructor(config: IPrismicConfig) {
@@ -18,7 +19,8 @@ export class PrismicAdapter implements ICmsAdapter {
     public async getNormalizedContentData(contentId: string, locale: string) {
         const api = await this.client;
         let res = await api.getByID(contentId);
-
+        console.log(res);
+        
         if (res.lang !== locale) {
             const altLang = res.alternate_languages.find((alternateLang) => (alternateLang as any).lang === locale);
             if (altLang) {

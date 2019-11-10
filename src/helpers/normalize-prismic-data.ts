@@ -46,7 +46,7 @@ export const normalizePrismicData = async (
                             await api.getByID(subContent.id)
                                 .then((res) => normalizePrismicData(res, api, alreadyNormalizedContents));
                         normalizedSubField.push(
-                            {type: contentObject.type, data: subContentData.data, id: subContentData.id},
+                            {type: subContent.type, data: subContentData.data, id: subContentData.id},
                         );
                     } else {
                         normalizedSubField.push(contentObject);
