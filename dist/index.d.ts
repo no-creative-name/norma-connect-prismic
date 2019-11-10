@@ -4,6 +4,7 @@ declare module 'norma-connect-prismic' {
     import { ICmsAdapter } from "norma-connect-prismic/interfaces/cms-adapter";
     import { IPrismicConfig } from "norma-connect-prismic/interfaces/prismic-config";
     export class PrismicAdapter implements ICmsAdapter {
+        supportsFieldWiseAdjustment: boolean;
         constructor(config: IPrismicConfig);
         getNormalizedContentData(contentId: string, locale: string): Promise<import("./interfaces/content").IContent>;
     }
@@ -12,6 +13,7 @@ declare module 'norma-connect-prismic' {
 declare module 'norma-connect-prismic/interfaces/cms-adapter' {
     import { IContent } from "norma-connect-prismic/interfaces/content";
     export interface ICmsAdapter {
+        supportsFieldWiseAdjustment: boolean;
         getNormalizedContentData: (contentId: string, locale: string) => Promise<IContent>;
     }
 }
