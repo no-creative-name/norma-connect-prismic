@@ -65,13 +65,15 @@ export const normalizePrismicData = async (
                     alreadyNormalizedContents[contentField.id] ||
                     await api.getByID(contentField.id)
                         .then((res) => normalizePrismicData(res, api, alreadyNormalizedContents));
-                normalizedContent.data[fieldIdentifier].value = {
-                    data: contentFieldData.data,
-                    id: contentFieldData.id,
-                    type: contentField.type,
+                normalizedContent.data[fieldIdentifier] = {
+                    fieldType: undefined,
+                    value: contentFieldData,
                 };
             } else {
-                normalizedContent.data[fieldIdentifier] = contentField;
+                normalizedContent.data[fieldIdentifier] = {
+                    fieldType: undefined,
+                    value: contentField,
+                };
             }
             alreadyNormalizedContents[rawContentData.id] = normalizedContent;
         }

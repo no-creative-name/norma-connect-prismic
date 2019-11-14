@@ -1,5 +1,6 @@
 import Prismic = require("prismic-javascript");
 import { normalizePrismicData } from "./normalize-prismic-data";
+import { getByID, mockApiResult, mockApiNormalized } from "./__mock__/get-by-id";
 
 const expectedInput = {
     alternate_languages: [],
@@ -15,8 +16,12 @@ const expectedInput = {
                 {
                     subSubProp1: "",
                 },
-            ],
+            ]
         },
+        prop4: {
+            id: "xyz",
+            type: "typeY"
+        }
     },
     first_publication_date: "",
     href: "string",
@@ -32,20 +37,34 @@ const expectedInput = {
 
 const expectedOutput = {
     data: {
-        prop1: "",
-        prop2: 2,
-        prop3: {
-            subProp1: "",
-            subProp2: [
-                {
-                    subSubProp1: "",
-                },
-                {
-                    subSubProp1: "",
-                },
-            ],
+        prop1: {
+            fieldType: undefined,
+            value: ""
         },
+        prop2: {
+            fieldType: undefined,
+            value: 2
+        },
+        prop3: {
+            fieldType: undefined,
+            value: {
+                subProp1: "",
+                subProp2: [
+                    {
+                        subSubProp1: "",
+                    },
+                    {
+                        subSubProp1: "",
+                    },
+                ]
+            }
+        },
+        prop4: {
+            fieldType: undefined,
+            value: mockApiNormalized
+        }
     },
+    id: '12345',
     type: "typeX",
 };
 
@@ -57,6 +76,7 @@ describe("normalizePrismicData", () => {
     test("correctly converts raw to normalized data", async () => {
         await expect(Prismic.api("https://headless-cms-adapter.cdn.prismic.io/api/v2")
             .then((api) => {
+                api.getByID = jest.fn(getByID);
                 const normalized = normalizePrismicData(expectedInput, api);
                 return normalized;
             })).resolves.toEqual(expect.objectContaining(expectedOutput));
