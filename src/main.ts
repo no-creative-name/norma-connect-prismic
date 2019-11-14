@@ -19,8 +19,6 @@ export class PrismicAdapter implements ICmsAdapter {
     public async getNormalizedContentData(contentId: string, locale: string) {
         const api = await this.client;
         let res = await api.getByID(contentId);
-        console.log(res);
-        
         if (res.lang !== locale) {
             const altLang = res.alternate_languages.find((alternateLang) => (alternateLang as any).lang === locale);
             if (altLang) {

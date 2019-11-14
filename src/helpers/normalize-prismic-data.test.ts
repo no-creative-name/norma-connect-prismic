@@ -59,6 +59,6 @@ describe("normalizePrismicData", () => {
             .then((api) => {
                 const normalized = normalizePrismicData(expectedInput, api);
                 return normalized;
-            })).resolves.toMatchObject(expectedOutput);
+            })).resolves.toEqual(expect.objectContaining(expectedOutput));
     });
 });

@@ -30,9 +30,11 @@ declare module 'norma-connect-prismic/interfaces/content' {
         data: IContentData;
         id: string;
     }
-    interface IContentData {
-        [key: string]: any;
+    export interface IContentData {
+        [key: string]: {
+            value: any;
+            fieldType: string;
+        };
     }
-    export {};
 }
 
