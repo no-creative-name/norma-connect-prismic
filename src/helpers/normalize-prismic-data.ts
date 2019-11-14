@@ -46,14 +46,17 @@ export const normalizePrismicData = async (
                             await api.getByID(subContent.id)
                                 .then((res) => normalizePrismicData(res, api, alreadyNormalizedContents));
                         normalizedSubField.push(
-                            {type: contentObject.type, data: subContentData.data, id: subContentData.id},
+                            {type: subContent.type, data: subContentData.data, id: subContentData.id},
                         );
                     } else {
                         normalizedSubField.push(contentObject);
                     }
                 }
             }
-            normalizedContent.data[fieldIdentifier] = normalizedSubField;
+            normalizedContent.data[fieldIdentifier] = {
+                fieldType: undefined,
+                value: normalizedSubField,
+            };
             alreadyNormalizedContents[rawContentData.id] = normalizedContent;
         } else {
             // if is a seperate content to be fetched
@@ -63,12 +66,14 @@ export const normalizePrismicData = async (
                     await api.getByID(contentField.id)
                         .then((res) => normalizePrismicData(res, api, alreadyNormalizedContents));
                 normalizedContent.data[fieldIdentifier] = {
-                    data: contentFieldData.data,
-                    id: contentFieldData.id,
-                    type: contentField.type,
+                    fieldType: undefined,
+                    value: contentFieldData,
                 };
             } else {
-                normalizedContent.data[fieldIdentifier] = contentField;
+                normalizedContent.data[fieldIdentifier] = {
+                    fieldType: undefined,
+                    value: contentField,
+                };
             }
             alreadyNormalizedContents[rawContentData.id] = normalizedContent;
         }

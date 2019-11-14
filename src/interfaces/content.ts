@@ -1,9 +1,12 @@
 export interface IContent {
-    type: string;
-    data: IContentData;
-    id: string;
-  }
+  type: string;
+  data: IContentData;
+  id: string;
+}
 
-interface IContentData {
-    [key: string]: any;
+export interface IContentData {
+  [key: string]: {
+    value: any;
+    fieldType: string;
+  };
 }
