@@ -6,7 +6,7 @@ import { ICmsAdapter } from "./interfaces/cms-adapter";
 import { IPrismicConfig } from "./interfaces/prismic-config";
 
 export class PrismicAdapter implements ICmsAdapter {
-    public supportsFieldWiseAdjustment = false;
+    public supportsFieldTypeWiseAdjustment = false;
     private client: Promise<ResolvedApi>;
 
     constructor(config: IPrismicConfig) {
