@@ -29,28 +29,20 @@ export const normalizePrismicData = async (
             for (const contentObject of contentField) {
 
                 // if is a seperate content to be fetched
-                if (contentObject.type && contentObject.id) {
+                if (contentObject[Object.keys(contentObject)[0]] &&
+                    contentObject[Object.keys(contentObject)[0]].id &&
+                    contentObject[Object.keys(contentObject)[0]].type
+                ) {
+                    const subContent = contentObject[Object.keys(contentObject)[0]];
                     const subContentData =
-                        alreadyNormalizedContents[contentObject.id] ||
-                        await api.getByID(contentObject.id)
+                        alreadyNormalizedContents[subContent.id] ||
+                        await api.getByID(subContent.id)
                             .then((res) => normalizePrismicData(res, api, alreadyNormalizedContents));
                     normalizedSubField.push(
-                        {type: contentObject.type, data: subContentData.data, id: subContentData.id},
+                        {type: subContent.type, data: subContentData.data, id: subContentData.id},
                     );
-                } else if (contentObject[Object.keys(contentObject)[0]]) {
-                    const subContent = contentObject[Object.keys(contentObject)[0]];
-
-                    if (subContent.id) {
-                        const subContentData =
-                            alreadyNormalizedContents[subContent.id] ||
-                            await api.getByID(subContent.id)
-                                .then((res) => normalizePrismicData(res, api, alreadyNormalizedContents));
-                        normalizedSubField.push(
-                            {type: subContent.type, data: subContentData.data, id: subContentData.id},
-                        );
-                    } else {
-                        normalizedSubField.push(contentObject);
-                    }
+                } else {
+                    normalizedSubField.push(contentObject);
                 }
             }
             normalizedContent.data[fieldIdentifier] = {
