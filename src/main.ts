@@ -20,12 +20,23 @@ export class PrismicAdapter implements ICmsAdapter {
         const api = await this.client;
         let res = await api.getByID(contentId);
         if (res.lang !== locale) {
-            const altLang = res.alternate_languages.find((alternateLang) => (alternateLang as any).lang === locale);
-            if (altLang) {
-                res = await api.getByID((altLang as any).id);
-            }
+            res = await this.fetchCorrectLanguageVersion(res, locale, api);
         }
-
         return normalizePrismicData(res, api);
+    }
+
+    public async fetchCorrectLanguageVersion(
+        originalResult: PrismicDocument.Document,
+        locale: string,
+        api: ResolvedApi,
+    ): Promise<PrismicDocument.Document> {
+        const altLang = originalResult.alternate_languages.find(
+            (alternateLang) => (alternateLang as any).lang === locale,
+        );
+
+        if (altLang) {
+            return api.getByID((altLang as any).id);
+        }
+        return originalResult;
     }
 }
