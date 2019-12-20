@@ -21,7 +21,18 @@ const expectedInput = {
         prop4: {
             id: "xyz",
             type: "typeY"
-        }
+        },
+        prop5: [
+            1, 2, 3
+        ],
+        prop6: [
+            {
+                content: {
+                    id: "xyz",
+                    type: "typeY"
+                }
+            }
+        ]
     },
     first_publication_date: "",
     href: "string",
@@ -62,6 +73,18 @@ const expectedOutput = {
         prop4: {
             fieldType: undefined,
             value: mockApiNormalized
+        },
+        prop5: {
+            fieldType: undefined,
+            value: [
+                1, 2, 3
+            ]
+        },
+        prop6: {
+            fieldType: undefined,
+            value: [
+                mockApiNormalized
+            ]
         }
     },
     id: '12345',
